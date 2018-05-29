@@ -1,0 +1,28 @@
+os: osx
+osx_image: xcode9.2
+language: cpp
+compiler: gcc
+env:
+  global:
+  - LDFLAGS=-L/usr/local/opt/openssl/lib
+  - CPPFLAGS=-I/usr/local/opt/openssl/include
+before_install:
+- brew bundle
+script:
+- "./autogen.sh"
+- "./configure --with-gui=qt5"
+- make deploy
+before_deploy:
+- git config --local user.name "bubblescrypto"
+- git config --local user.email "bubblescrypto2018@gmail.com"
+- echo `pwd`
+deploy:
+  provider: releases
+  api_key:
+    secure: V5lYwmMELjNrnZIDZRm0g9R/7MvvllYMXWOxCBR0UzmjH141DVlXUoN0dgv7oyzeUv9mUap/0PT5svvPNh6+jsVZirD7jG5qrSWUaoqNi+gDXlvhZUjzJeoQFH2KQoxpWI7PhNyASR8dmpupP8p4ojb28D4ixGbemvMDAlVb0twsS8U7355xJAZlvO5bJHLtlpAPzrBaVXDoRzZD8nNSR1Q6e8wb23UeM3MU+BM1899lGLJUrJQzSKjV1jkWeXmZVrgjYCxh2HwAjFnVz1WaVb1zLnOdcKNkd+bqj2L1iJdQ9jPK/NfQRXWQr9KKok+vThh/4wfEugwut8X6zCBWxrkAQxAmEfXRRrxjrHIQTeJciANwJSgFEgnsA5cMiBZpb3O8TRPMTf+WoMEz+s3G97CFIjhzFBkIa5I4MMaHGJaV1cSetNEhJPA6D8uKqT2hZ91THrn7FmSfkzow6dV44ZZQ3gakxT++x8SUDiGWkxzJgH4oyBnVdtp7GIgKrGbBMWzJUWCJiyEov7pzyh6Kcy3JDI9nw26VXnAv0/4/vXWIL8PSPowLRni7GYW/9CcWV31ZoVIau6+KB2XuNtdnJ4O5xysgOrQsKgZKqbeGH7653VeklSCR/9jI5gFk7GtdCi0WNO0gPXOEu6TZvD0uFOlabB00mXWMPzTxJ5G02Xk=
+  file: VerticalCoin-Qt.dmg
+  on:
+    repo: bubblescrypto/verticalcoin
+    branch: master
+  skip_cleanup: true
+  overwrite: true
